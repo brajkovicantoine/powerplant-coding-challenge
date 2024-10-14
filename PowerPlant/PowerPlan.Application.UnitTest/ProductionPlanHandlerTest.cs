@@ -1,5 +1,6 @@
 using AutoFixture;
 using FluentAssertions;
+using PowerPlant.Application.Domain;
 namespace PowerPlan.Application.UnitTest;
 
 [TestClass]
@@ -26,11 +27,11 @@ public class ProductionPlanHandlerTest
         { 
             Load = 0, 
             Fuel = new Fuel() { GasPricePerMWh = 50, KerosinePricePerMWh = 50, Co2PricePerTon= 0, WindPerCent = 100},
-            PowerPlants = new List<PowerPlant>()
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
             {
-                new PowerPlant(){ Name = "A1", Efficiency = 1, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Windturbine},
-                new PowerPlant(){ Name = "A2", Efficiency = 1, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.GasFired},
-                new PowerPlant(){ Name = "A3", Efficiency = 1, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Turbojet}
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A1", Efficiency = 1, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Windturbine},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 1, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.GasFired},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 1, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Turbojet}
             }
         };
 
@@ -49,10 +50,10 @@ public class ProductionPlanHandlerTest
         { 
             Load = 100, 
             Fuel = new Fuel() { GasPricePerMWh = 50, KerosinePricePerMWh = 50, Co2PricePerTon= 0, WindPerCent = 100},
-            PowerPlants = new List<PowerPlant>()
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
             {
-                new PowerPlant(){ Name = "A2", Efficiency = 0, ProductionMinimal = 110, ProductionMaximal = 400, Type = PowerType.GasFired},
-                new PowerPlant(){ Name = "A3", Efficiency = 0, ProductionMinimal = 110, ProductionMaximal = 400, Type = PowerType.Turbojet}
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 0, ProductionMinimal = 110, ProductionMaximal = 400, Type = PowerType.GasFired},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 0, ProductionMinimal = 110, ProductionMaximal = 400, Type = PowerType.Turbojet}
             }
         };
 
@@ -72,11 +73,11 @@ public class ProductionPlanHandlerTest
         { 
             Load = 100, 
             Fuel = new Fuel() { GasPricePerMWh = 50, KerosinePricePerMWh = 50, Co2PricePerTon= 0, WindPerCent = 0},
-            PowerPlants = new List<PowerPlant>()
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
             {
-                new PowerPlant(){ Name = "A1", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Windturbine},
-                new PowerPlant(){ Name = "A2", Efficiency = 0.8m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.GasFired},
-                new PowerPlant(){ Name = "A3", Efficiency = 0.6m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Turbojet}
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A1", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Windturbine},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 0.8m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.GasFired},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 0.6m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Turbojet}
             }
         };
 
@@ -98,11 +99,11 @@ public class ProductionPlanHandlerTest
         { 
             Load = 100, 
             Fuel = new Fuel() { GasPricePerMWh = 50, KerosinePricePerMWh = 50, Co2PricePerTon= 0, WindPerCent = 0},
-            PowerPlants = new List<PowerPlant>()
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
             {
-                new PowerPlant(){ Name = "A1", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Windturbine},
-                new PowerPlant(){ Name = "A2", Efficiency = 0.2m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.GasFired},
-                new PowerPlant(){ Name = "A3", Efficiency = 0.3m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Turbojet}
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A1", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Windturbine},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 0.2m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.GasFired},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 0.3m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Turbojet}
             }
         };
 
@@ -124,9 +125,9 @@ public class ProductionPlanHandlerTest
         { 
             Load = 100, 
             Fuel = new Fuel() { GasPricePerMWh = 50, KerosinePricePerMWh = 50, Co2PricePerTon= 0, WindPerCent = 0},
-            PowerPlants = new List<PowerPlant>()
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
             {
-                new PowerPlant(){ Name = "A2", Efficiency = 0, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Windturbine}
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 0, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Windturbine}
             }
         };
 

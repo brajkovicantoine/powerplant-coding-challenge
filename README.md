@@ -15,7 +15,7 @@ And separated in 3 project
 ## Launch and using
 
 Simply build the solution and launch the PowerPlant.Api
-Open a browser at [localhost:8888] (https://localhost:8888/swagger/index.html)
+Open a browser https://localhost:8888/swagger/index.html
 
 you can now post on https://localhost:8888/ProductionPlan
 

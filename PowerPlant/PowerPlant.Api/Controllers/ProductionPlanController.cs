@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PowerPlan.Application;
+using PowerPlant.Application.Domain;
 
 namespace PowerPlant.Api.Controllers;
 
@@ -20,6 +21,7 @@ public class ProductionPlanController : ControllerBase
     [HttpPost]
     public async Task<IEnumerable<ProductionPlan>> Post([FromBody]Production production)
     {
-        return await _mediator.Send(new ProductionPlanRequest(production));
+       return await _mediator.Send(new ProductionPlanRequest(production));
+
     }
 }

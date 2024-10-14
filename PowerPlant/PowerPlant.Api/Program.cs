@@ -1,5 +1,4 @@
-
-using PowerPlan.Application;
+using PowerPlant.Application.Domain;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
