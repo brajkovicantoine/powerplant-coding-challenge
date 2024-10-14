@@ -5,9 +5,9 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPlant.Api", "PowerPlant.Api\PowerPlant.Api.csproj", "{95AFD3BE-2C97-4473-B14D-4A454EEADF12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPlan.Application", "PowerPlan.Application\PowerPlan.Application.csproj", "{B99D7580-9644-401F-BD28-FD96B3728870}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPlant.Application", "PowerPlan.Application\PowerPlant.Application.csproj", "{B99D7580-9644-401F-BD28-FD96B3728870}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPlan.Application.UnitTest", "PowerPlan.Application.UnitTest\PowerPlan.Application.UnitTest.csproj", "{49FD4C5E-0082-406B-B938-3E58035FB7CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPlant.Application.UnitTest", "PowerPlan.Application.UnitTest\PowerPlant.Application.UnitTest.csproj", "{49FD4C5E-0082-406B-B938-3E58035FB7CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

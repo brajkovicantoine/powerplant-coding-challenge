@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PowerPlan.Application\PowerPlan.Application.csproj" />
+    <ProjectReference Include="..\PowerPlan.Application\PowerPlant.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
