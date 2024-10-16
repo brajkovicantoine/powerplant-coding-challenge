@@ -11,14 +11,39 @@ public class ProductionPlanHandlerTest
     private readonly ProductionPlanService productionPlanHandler = new ProductionPlanService();
 
     [TestMethod]
-    public async Task Test()
+    public async Task Should_Have_No_ProductionPlan_When_No_PowerPlant()
     {
-        var data = _fixture.Freeze<Production>();
+        var data = new Production()
+        {
+            Load = 0,
+            Fuel = new Fuel() { GasPricePerMWh = 0, KerosinePricePerMWh = 0, Co2PricePerTon = 0, WindPerCent = 0 },
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
+            {
+            }
+        };
 
         var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().NotBeNull();
+        result.Should().HaveCount(0);
+    }
+    [TestMethod]
+    public async Task Should_Have_One_ProductionPlan_When_One_PowerPlant()
+    {
+        var data = new Production()
+        {
+            Load = 100,
+            Fuel = new Fuel() { GasPricePerMWh = 0, KerosinePricePerMWh = 0, Co2PricePerTon = 0, WindPerCent = 100 },
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
+            {
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A1", Efficiency = 1, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Windturbine},
+            }
+        };
+
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -143,6 +168,7 @@ public class ProductionPlanHandlerTest
         result.Should().AllSatisfy(x => x.Production.Should().Be(0));
         result.Sum(x => x.Production).Should().Be(0);
     }
+
 
     [DataTestMethod]
     [DataRow("example_payloads/payload1.json")]

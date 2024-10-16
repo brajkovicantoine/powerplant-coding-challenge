@@ -47,6 +47,7 @@ public class ProductionPlanService : IProductionPlanService
     {
         var roundLoad = production.Load;
         var sumLoad = plans.Sum(p => p.Production);
+        //no overload or underload
         if (sumLoad == roundLoad)
             return plans;
 
@@ -72,7 +73,7 @@ public class ProductionPlanService : IProductionPlanService
             planItem.Production = decimal.Round(prod, 1, MidpointRounding.ToZero);
 
             //check if the current can hold the load of the previous
-            if(lastProd != null && lastProd.Production+planItem.Production <= planItem.PowerPlant.ProductionMaximal)
+            if (lastProd != null && lastProd.Production+planItem.Production <= planItem.PowerPlant.ProductionMaximal)
             {
                 planItem.Production += lastProd.Production;
                 lastProd.Production = 0;
