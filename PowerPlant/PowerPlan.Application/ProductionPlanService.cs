@@ -21,8 +21,7 @@ public class ProductionPlanService : IProductionPlanService
         var loadLeftToProduce = (decimal)production.Load;
         var powerPlants = production.PowerPlants
             .OrderBy(x => x.GetMerit(production.Fuel.GetPrice(x.Type)))
-            .ThenByDescending(x => x.ProductionMaximal)
-            .ThenBy(x => x.Name);
+            .ThenByDescending(x => x.ProductionMaximal);
 
         //load with the maximal value to maximize the load
         foreach (var powerPlant in powerPlants)
