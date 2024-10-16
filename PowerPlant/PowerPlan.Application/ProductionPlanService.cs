@@ -45,10 +45,9 @@ public class ProductionPlanService : IProductionPlanService
 
     private IEnumerable<ProductionPlanModel> RetroFitProductionPlan(IEnumerable<ProductionPlanModel> plans, Production production)
     {
-        var roundLoad = production.Load;
         var sumLoad = plans.Sum(p => p.Production);
         //no overload or underload
-        if (sumLoad == roundLoad)
+        if (sumLoad == production.Load)
             return plans;
 
         var newPlans = plans.ToList();
@@ -64,7 +63,7 @@ public class ProductionPlanService : IProductionPlanService
 
         foreach (var planItem in newPlans)
         {
-            var diffToRetroFit = newPlans.Sum(p => p.Production) - roundLoad;
+            var diffToRetroFit = newPlans.Sum(p => p.Production) - production.Load;
 
             var prod = decimal.Min(planItem.Production - diffToRetroFit, planItem.PowerPlant.GetMaximalBoundedProduction(production.Fuel));
             prod = decimal.Max(prod, planItem.PowerPlant.ProductionMinimal);
@@ -79,6 +78,10 @@ public class ProductionPlanService : IProductionPlanService
 
             lastProd = planItem;
         }
+
+        //overload or underload throw exception ? or we send the best computed for now
+        if (plans.Sum(p => p.Production) != production.Load)
+            return newPlans;
 
         return newPlans;
     }

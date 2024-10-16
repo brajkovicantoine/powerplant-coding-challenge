@@ -146,6 +146,32 @@ public class ProductionPlanHandlerTest
     }
 
     [TestMethod]
+    public async Task Should_Give_Best_Computed_Production_Plan_When_No_Power_Plan_Can_Give_Enough()
+    {
+        var data = new Production() 
+        { 
+            Load = 400, 
+            Fuel = new Fuel() { GasPricePerMWh = 50, KerosinePricePerMWh = 50, Co2PricePerTon= 0, WindPerCent = 100},
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
+            {
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A1", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Windturbine},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.GasFired},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 100, Type = PowerType.Turbojet}
+            }
+        };
+
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+
+        result.Should().NotBeEmpty();
+        result.Should().NotContainNulls();
+        result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A2", Production = 100});
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A3", Production = 100});
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A1", Production = 100 });
+    }
+
+    [TestMethod]
     public async Task Should_Windturbine_Product_Zero_When_Wind_Is_Zero()
     {
         var data = new Production() 
