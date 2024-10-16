@@ -32,7 +32,7 @@ public class PowerPlant
     {
         return Type switch
         {
-            PowerType.GasFired => (fuel.GasPricePerMWh / Efficiency),
+            PowerType.GasFired => (fuel.GasPricePerMWh / Efficiency) + (fuel.Co2PricePerTon * Efficiency),
             PowerType.Turbojet => (fuel.KerosinePricePerMWh / Efficiency),
             PowerType.Windturbine => decimal.Zero,
             _ => throw new NotSupportedException(),
