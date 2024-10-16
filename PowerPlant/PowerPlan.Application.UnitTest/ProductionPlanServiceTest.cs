@@ -4,9 +4,9 @@ using PowerPlant.Application.UnitTest;
 namespace PowerPlan.Application.UnitTest;
 
 [TestClass]
-public class ProductionPlanHandlerTest
+public class ProductionPlanServiceTest
 {
-    private readonly ProductionPlanService productionPlanHandler = new ProductionPlanService();
+    private readonly ProductionPlanService productionPlanService = new ProductionPlanService();
 
     [TestMethod]
     public async Task Should_Have_No_ProductionPlan_When_No_PowerPlant()
@@ -20,11 +20,12 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(0);
     }
+
     [TestMethod]
     public async Task Should_Have_One_ProductionPlan_When_One_PowerPlant()
     {
@@ -38,7 +39,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeNull();
         result.Should().HaveCount(1);
@@ -59,7 +60,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -82,7 +83,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -106,7 +107,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -133,7 +134,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -160,7 +161,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -184,7 +185,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -204,7 +205,7 @@ public class ProductionPlanHandlerTest
         var payload = new JsonDataTest<Production>(file);
         var data = payload.GetData();
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -223,7 +224,7 @@ public class ProductionPlanHandlerTest
         var response = new JsonDataTest<ProductionPlan[]>(fileResponse);
         var dataResponse = response.GetData();
 
-        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
