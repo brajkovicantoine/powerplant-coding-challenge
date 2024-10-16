@@ -46,3 +46,9 @@ The response should be a json as in `example_payloads/response3.json`, which is 
 [First example](example_payloads/payload1.json)
 [Second example](example_payloads/payload2.json)
 [Third example](example_payloads/payload3.json)
+
+## Improvement & open question
+
+  - What to do when the power plan can't deliver the load requested ? 
+    Currently, we respond with the best matching scenario
+
