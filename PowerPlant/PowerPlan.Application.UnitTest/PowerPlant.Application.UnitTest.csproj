@@ -29,6 +29,9 @@
     <None Update="example_payloads\payload1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="example_payloads\payload4.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="example_payloads\payload2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -172,6 +172,7 @@ public class ProductionPlanHandlerTest
     [DataRow("example_payloads/payload1.json")]
     [DataRow("example_payloads/payload2.json")]
     [DataRow("example_payloads/payload3.json")]
+    [DataRow("example_payloads/payload4.json")]
     public async Task Should_Produce_Response_When_Payload(string file)
     {
         var payload = new JsonDataTest<Production>(file);

@@ -65,15 +65,13 @@ public class ProductionPlanService : IProductionPlanService
         foreach (var planItem in newPlans)
         {
             var diffToRetroFit = newPlans.Sum(p => p.Production) - roundLoad;
-            if (diffToRetroFit == 0)
-                return newPlans;//retrofit achieved
 
             var prod = decimal.Min(planItem.Production - diffToRetroFit, planItem.PowerPlant.GetMaximalBoundedProduction(production.Fuel));
             prod = decimal.Max(prod, planItem.PowerPlant.ProductionMinimal);
             planItem.Production = decimal.Round(prod, 1, MidpointRounding.ToZero);
 
             //check if the current can hold the load of the previous
-            if (lastProd != null && lastProd.Production+planItem.Production <= planItem.PowerPlant.ProductionMaximal)
+            if (lastProd != null && lastProd.Production+planItem.Production <= planItem.PowerPlant.GetMaximalBoundedProduction(production.Fuel))
             {
                 planItem.Production += lastProd.Production;
                 lastProd.Production = 0;
