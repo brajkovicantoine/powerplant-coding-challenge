@@ -15,7 +15,7 @@ public class PowerPlant
 
     [Required]
     [JsonPropertyName("efficiency")]
-    [Range(0, 100)]
+    [Range(0, 1, MinimumIsExclusive = true)]
     public decimal Efficiency { get; set; }
 
     [Required]
@@ -30,8 +30,6 @@ public class PowerPlant
 
     public decimal GetMerit(decimal price)
     {
-        if (Efficiency == 0)
-            return decimal.MaxValue;
         return Type switch
         {
             PowerType.GasFired => price / Efficiency,

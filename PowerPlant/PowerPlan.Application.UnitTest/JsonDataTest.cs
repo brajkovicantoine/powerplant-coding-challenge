@@ -15,7 +15,6 @@ public class JsonDataTest<T>
     {
         var options = new JsonSerializerOptions();
         options.Converters.Add(new JsonStringEnumConverter());
-
         return options;
     }
 
@@ -44,7 +43,6 @@ public class JsonDataTest<T>
 
         var pathToReadFrom = Path.Combine(solutionDirectory, FilePath);
         using var textReader = File.OpenRead(pathToReadFrom);
-        
         return JsonSerializer.Deserialize<T>(textReader, SerializerOptions);
     }
 }

@@ -70,29 +70,6 @@ public class ProductionPlanServiceTest
     }
 
     [TestMethod]
-    public async Task Should_Gas_And_Kerosine_Produce_Zero_When_Efficiency_Is_Zero()
-    {
-        var data = new Production() 
-        { 
-            Load = 100, 
-            Fuel = new Fuel() { GasPricePerMWh = 50, KerosinePricePerMWh = 50, Co2PricePerTon= 0, WindPerCent = 100},
-            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
-            {
-                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 0, ProductionMinimal = 110, ProductionMaximal = 400, Type = PowerType.GasFired},
-                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 0, ProductionMinimal = 110, ProductionMaximal = 400, Type = PowerType.Turbojet}
-            }
-        };
-
-        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
-
-        result.Should().NotBeEmpty();
-        result.Should().NotContainNulls();
-        result.Should().HaveCount(data.PowerPlants.Count());
-        result.Should().AllSatisfy(x => x.Production.Should().Be(0));
-        result.Sum(x => x.Production).Should().Be(0);
-    }
-
-    [TestMethod]
     public async Task Should_Produce_With_Gas_When_Efficiency_Gas_Is_Better()
     {
         var data = new Production() 
