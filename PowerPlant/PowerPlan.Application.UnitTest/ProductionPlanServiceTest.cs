@@ -124,6 +124,60 @@ public class ProductionPlanServiceTest
     }
 
     [TestMethod]
+    public async Task Should_Produce_With_Gas_When_Gas_Is_Cheaper()
+    {
+        var data = new Production() 
+        { 
+            Load = 100, 
+            Fuel = new Fuel() { GasPricePerMWh = 1, KerosinePricePerMWh = 2, Co2PricePerTon= 0, WindPerCent = 0},
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
+            {
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A1", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 0, Type = PowerType.Windturbine},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.GasFired},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Turbojet}
+            }
+        };
+
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
+
+        result.Should().NotBeEmpty();
+        result.Should().NotContainNulls();
+        result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A2", Production = 100});
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A3", Production = 0});
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A1", Production = 0});
+        result.Sum(x => x.Production).Should().Be(data.Load);
+    }
+
+    [TestMethod]
+    public async Task Should_Produce_With_Kerosine_When_Kerosine_Is_Cheaper()
+    {
+        var data = new Production() 
+        { 
+            Load = 100, 
+            Fuel = new Fuel() { GasPricePerMWh = 2, KerosinePricePerMWh = 1, Co2PricePerTon= 0, WindPerCent = 0},
+            PowerPlants = new List<PowerPlant.Application.Domain.PowerPlant>()
+            {
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A1", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 0, Type = PowerType.Windturbine},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A2", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.GasFired},
+                new PowerPlant.Application.Domain.PowerPlant(){ Name = "A3", Efficiency = 1m, ProductionMinimal = 0, ProductionMaximal = 400, Type = PowerType.Turbojet}
+            }
+        };
+
+        var result = await productionPlanService.CalculateProductionPlan(data, CancellationToken.None);
+
+        result.Should().NotBeEmpty();
+        result.Should().NotContainNulls();
+        result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A2", Production = 0});
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A3", Production = 100});
+        result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A1", Production = 0 });
+        result.Sum(x => x.Production).Should().Be(data.Load);
+    }
+
+    [TestMethod]
     public async Task Should_Give_Best_Computed_Production_Plan_When_No_Power_Plan_Can_Give_Enough()
     {
         var data = new Production() 

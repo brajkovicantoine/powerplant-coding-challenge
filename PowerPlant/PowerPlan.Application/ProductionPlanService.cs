@@ -20,7 +20,7 @@ public class ProductionPlanService : IProductionPlanService
     {
         var loadLeftToProduce = (decimal)production.Load;
         var powerPlants = production.PowerPlants
-            .OrderBy(x => x.GetMerit(production.Fuel.GetPrice(x.Type)))
+            .OrderBy(x => x.GetMerit(production.Fuel))
             .ThenByDescending(x => x.ProductionMaximal);
 
         //load with the maximal value to maximize the load

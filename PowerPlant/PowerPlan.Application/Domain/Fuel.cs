@@ -24,16 +24,4 @@ public class Fuel
     [JsonPropertyName("wind(%)")]
     [Range(0, 100)]
     public decimal WindPerCent { get; set; }
-
-
-    public decimal GetPrice(PowerType type)
-    {
-        return type switch
-        {
-            PowerType.GasFired => GasPricePerMWh,
-            PowerType.Turbojet => KerosinePricePerMWh,
-            PowerType.Windturbine => decimal.Zero,
-            _ => throw new NotSupportedException(),
-        };
-    }
 }

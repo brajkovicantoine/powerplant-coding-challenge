@@ -28,12 +28,12 @@ public class PowerPlant
     [Range(0, int.MaxValue)]
     public decimal ProductionMaximal { get; set; }
 
-    public decimal GetMerit(decimal price)
+    public decimal GetMerit(Fuel fuel)
     {
         return Type switch
         {
-            PowerType.GasFired => price / Efficiency,
-            PowerType.Turbojet => price / Efficiency,
+            PowerType.GasFired => (fuel.GasPricePerMWh / Efficiency),
+            PowerType.Turbojet => (fuel.KerosinePricePerMWh / Efficiency),
             PowerType.Windturbine => decimal.Zero,
             _ => throw new NotSupportedException(),
         };
