@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace PowerPlant.Application.Domain;
@@ -7,7 +8,8 @@ public class Production
 {
     [Required]
     [JsonPropertyName("load")]
-    public decimal Load { get; set; }
+    [Range(0, int.MaxValue)]
+    public int Load { get; set; }
 
     [Required]
     [JsonPropertyName("fuels")]

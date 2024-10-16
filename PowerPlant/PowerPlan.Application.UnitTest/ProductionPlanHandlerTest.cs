@@ -1,20 +1,21 @@
 using AutoFixture;
 using FluentAssertions;
 using PowerPlant.Application.Domain;
+using PowerPlant.Application.UnitTest;
 namespace PowerPlan.Application.UnitTest;
 
 [TestClass]
 public class ProductionPlanHandlerTest
 {
     private readonly IFixture _fixture = new Fixture();
-    private readonly ProductionPlanHandler productionPlanHandler = new ProductionPlanHandler();
+    private readonly ProductionPlanService productionPlanHandler = new ProductionPlanService();
 
     [TestMethod]
     public async Task Test()
     {
         var data = _fixture.Freeze<Production>();
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().HaveCount(data.PowerPlants.Count());
@@ -35,11 +36,12 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
         result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
         result.Sum(x => x.Production).Should().Be(data.Load);
     }
 
@@ -57,7 +59,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -81,11 +83,12 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
         result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
         result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A2", Production = 100});
         result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A3", Production = 0});
         result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A1", Production = 0});
@@ -107,11 +110,12 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
         result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
         result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A2", Production = 0});
         result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A3", Production = 100});
         result.Should().ContainEquivalentOf(new ProductionPlan() { Name = "A1", Production = 0 });
@@ -131,7 +135,7 @@ public class ProductionPlanHandlerTest
             }
         };
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
@@ -149,11 +153,12 @@ public class ProductionPlanHandlerTest
         var payload = new JsonDataTest<Production>(file);
         var data = payload.GetData();
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
         result.Should().HaveCount(data.PowerPlants.Count());
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
         result.Sum(x => x.Production).Should().Be(data.Load);
     }
 
@@ -167,12 +172,13 @@ public class ProductionPlanHandlerTest
         var response = new JsonDataTest<ProductionPlan[]>(fileResponse);
         var dataResponse = response.GetData();
 
-        var result = await productionPlanHandler.Handle(new ProductionPlanRequest(data), CancellationToken.None);
+        var result = await productionPlanHandler.CalculateProductionPlan(data, CancellationToken.None);
 
         result.Should().NotBeEmpty();
         result.Should().NotContainNulls();
         result.Should().HaveCount(data.PowerPlants.Count());
         result.Should().BeEquivalentTo(dataResponse);
+        result.Should().AllSatisfy(x => x.Should().HaveProductionIsWithinBound(data));
         result.Sum(x => x.Production).Should().Be(data.Load);
     }
 }

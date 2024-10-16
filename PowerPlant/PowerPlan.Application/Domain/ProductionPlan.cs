@@ -11,5 +11,6 @@ public class ProductionPlan
 
     [Required]
     [JsonPropertyName("p")]
+    [Range(0, int.MaxValue)]
     public decimal Production { get; set; }
 }

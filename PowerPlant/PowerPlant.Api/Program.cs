@@ -1,3 +1,4 @@
+using PowerPlan.Application;
 using PowerPlant.Application.Domain;
 using System.Text.Json.Serialization;
 
@@ -9,7 +10,7 @@ builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.Co
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ProductionPlan>());
+builder.Services.AddScoped<IProductionPlanService, ProductionPlanService>();
 
 var app = builder.Build();
 

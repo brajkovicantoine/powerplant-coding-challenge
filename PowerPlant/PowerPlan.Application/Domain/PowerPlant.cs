@@ -15,14 +15,17 @@ public class PowerPlant
 
     [Required]
     [JsonPropertyName("efficiency")]
+    [Range(0, 100)]
     public decimal Efficiency { get; set; }
 
     [Required]
     [JsonPropertyName("pmin")]
+    [Range(0, int.MaxValue)]
     public decimal ProductionMinimal { get; set; }
 
     [Required]
     [JsonPropertyName("pmax")]
+    [Range(0, int.MaxValue)]
     public decimal ProductionMaximal { get; set; }
 
     public decimal GetMerit(decimal price)
@@ -36,5 +39,17 @@ public class PowerPlant
             PowerType.Windturbine => decimal.Zero,
             _ => throw new NotSupportedException(),
         };
+    }
+
+    public decimal GetMaximalBoundedProduction(Fuel fuel)
+    {
+        var max = Type switch
+        {
+            PowerType.GasFired => ProductionMaximal,
+            PowerType.Turbojet => ProductionMaximal,
+            PowerType.Windturbine => ProductionMaximal * (fuel.WindPerCent / 100),
+            _ => throw new NotSupportedException(),
+        };
+        return decimal.Max(ProductionMinimal, max);
     }
 }
