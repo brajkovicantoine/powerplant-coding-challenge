@@ -1,4 +1,3 @@
-using AutoFixture;
 using FluentAssertions;
 using PowerPlant.Application.Domain;
 using PowerPlant.Application.UnitTest;
@@ -7,7 +6,6 @@ namespace PowerPlan.Application.UnitTest;
 [TestClass]
 public class ProductionPlanHandlerTest
 {
-    private readonly IFixture _fixture = new Fixture();
     private readonly ProductionPlanService productionPlanHandler = new ProductionPlanService();
 
     [TestMethod]
